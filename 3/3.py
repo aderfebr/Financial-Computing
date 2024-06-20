@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import statsmodels.api as sm
+from scipy.stats import norm
 
 # 导入EP和size
 data=pd.DataFrame()
@@ -52,6 +53,17 @@ for ass in assumption:
     coef_mean=coef.mean(axis=0)
     tmp=np.zeros((1,4))
     tmp=coef.var(axis=0,ddof=1)
-    print(ass)
-    print(np.round(coef_mean,4))  # 均值
-    print(np.round(coef_mean/np.sqrt(tmp/T),4))  # 统计量
+    tmp=coef_mean/np.sqrt(tmp/T)
+    print("{:>10}".format('intercept'),end=' ')  # 假设
+    for i in range(len(ass)):
+        print("{:>10}".format(ass[i]),end=' ')  # 假设
+    print()
+    for i in range(len(ass)+1):
+        print("{:10.4f}".format(coef_mean[i]),end=' ')  # 均值
+    print()
+    for i in range(len(ass)+1):
+        print("{:10.4f}".format(tmp[i]),end=' ')  # 统计量
+    print()
+    for i in range(len(ass)+1):
+        print("{:10.4f}".format(2-2*norm.cdf(abs(tmp[i]))),end=' ')  # p值 双侧检验
+    print()

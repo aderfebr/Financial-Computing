@@ -56,7 +56,7 @@ for idx in range(len(dates)):
 
         # 常量估计法
         Cov_Const = np.eye(Cov_Sample.shape[0])*np.mean(np.diag(Cov_Sample))
-        Cov_Const += (np.ones(Cov_Sample.shape)-np.eye(Cov_Sample.shape[0]))*np.mean(Cov_Sample-np.diag(np.diag(Cov_Sample)))
+        Cov_Const += (np.ones(Cov_Sample.shape)-np.eye(Cov_Sample.shape[0]))*np.sum(Cov_Sample-np.diag(np.diag(Cov_Sample)))/(Cov_Sample.shape[0]*Cov_Sample.shape[0]-Cov_Sample.shape[0])
         Cov_Const = np.matrix(Cov_Const)
 
         # 因子模型估计法
@@ -146,4 +146,4 @@ plt.show()
 print("最大化效用/压缩估计法:")
 print("均值:{:.4f}".format(np.mean(ret)))
 print("标准差:{:.4f}".format(np.std(ret,ddof=1)))
-print("夏普比率:{:.4f}".format(np.mean(ret)/np.std(ret,ddof=1)))
+print("夏普比率:{:.4f}".format(np.sqrt(12)*np.mean(ret)/np.std(ret,ddof=1)))
